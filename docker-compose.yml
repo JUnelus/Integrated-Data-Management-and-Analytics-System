@@ -39,10 +39,12 @@ services:
       - postgres
       - redis
     ports:
-      - "8080:8080"
+      - "8090:8080"
     volumes:
       - ./airflow_dags:/opt/airflow/dags
     restart: always
+    command: >
+      bash -c "airflow db upgrade && airflow webserver"  # Ensure the webserver starts correctly
 
   airflow-scheduler:
     image: apache/airflow:2.5.0
@@ -55,6 +57,7 @@ services:
     volumes:
       - ./airflow_dags:/opt/airflow/dags
     restart: always
+    command: airflow scheduler  # Ensure the correct command is provided here
 
 volumes:
   postgres-db-volume:

@@ -66,7 +66,7 @@ The **Integrated Data Management and Analytics System** is designed to integrate
     ```
 
 6. **Set Up Airflow:**
-    Access Airflow UI via `http://localhost:8080`.
+    Access Airflow UI via `http://localhost:8090`.
 
 ## Key Components Implementation
 

@@ -9,4 +9,4 @@ SELECT
         WHEN amount > 500 THEN 'High'
         ELSE 'Normal'
     END AS transaction_category
-FROM {{ ref('staging_transactions') }}
+FROM "MY_DB"."PUBLIC"."STAGING_TRANSACTIONS"
