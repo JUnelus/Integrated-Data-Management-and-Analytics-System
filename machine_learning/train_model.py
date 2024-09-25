@@ -1,24 +1,45 @@
+import os
+import snowflake.connector
+from dotenv import load_dotenv
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 import joblib
 
-# Load data from Snowflake
+# Load the .env file
+load_dotenv()
+
+
 def load_data():
-    import snowflake.connector
+    # Get Snowflake credentials from environment variables
+    user = os.getenv('SNOWFLAKE_USER')
+    password = os.getenv('SNOWFLAKE_PASSWORD')
+    account = os.getenv('SNOWFLAKE_ACCOUNT')
+    warehouse = os.getenv('SNOWFLAKE_WAREHOUSE')
+    database = os.getenv('SNOWFLAKE_DATABASE')
+    schema = os.getenv('SNOWFLAKE_SCHEMA')
+
+    # Connect to Snowflake
     conn = snowflake.connector.connect(
-        user='junelus',
-        password='SnowFlake924!',
-        account='mfkwhap-nu09395',
-        warehouse='COMPUTE_WH',
-        database='MY_DB',
-        schema='PUBLIC'
+        user=user,
+        password=password,
+        account=account,
+        warehouse=warehouse,
+        database=database,
+        schema=schema
     )
+
+    # Execute the query
     query = "SELECT * FROM final_transactions"
     df = pd.read_sql(query, conn)
+
+    # Close the connection
     conn.close()
+
     return df
+
 
 def train_model():
     df = load_data()
@@ -37,6 +58,7 @@ def train_model():
 
     # Save the model
     joblib.dump(model, 'machine_learning/models/random_forest.joblib')
+
 
 if __name__ == "__main__":
     train_model()

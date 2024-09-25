@@ -37,3 +37,6 @@ sqlalchemy==1.4.46  # Compatible version for both Snowflake and Airflow
 
 # Optional for Deployment and Containerization
 docker==6.0.1
+
+# Optional for Environment Variables
+python-dotenv
