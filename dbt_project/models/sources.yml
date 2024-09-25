@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw  # 'raw' is the name of the source
+    database: MY_DB  # Replace with your Snowflake database name
+    schema: PUBLIC  # Replace with the schema in which the 'transactions' table exists
+    tables:
+      - name: transactions  # 'transactions' is the table inside the 'raw' schema
