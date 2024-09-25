@@ -17,3 +17,45 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+
+  airflow-webserver:
+    image: apache/airflow:2.5.0
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow_dags:/opt/airflow/dags
+    restart: always
+
+  airflow-scheduler:
+    image: apache/airflow:2.5.0
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./airflow_dags:/opt/airflow/dags
+    restart: always
+
+volumes:
+  postgres-db-volume:
+    external: false
