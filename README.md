@@ -41,7 +41,7 @@ The **Integrated Data Management and Analytics System** is designed to integrate
 
 1. **Clone the Repository:**
     ```bash
-    git clone https://github.com/yourusername/integrated-data-management.git
+    git clone https://github.com/junelus/integrated-data-management.git
     cd integrated-data-management
     ```
 
